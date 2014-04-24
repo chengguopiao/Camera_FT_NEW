@@ -32,6 +32,7 @@ ACTIVITY_NAME = PACKAGE_NAME + '/.Camera'
 
 class CameraTest(unittest.TestCase):
     def setUp(self):
+        super(CameraTest,self).setUp()
         # rm DCIM folder and refresh from adb shell
         a.cmd('rm','/sdcard/DCIM/100ANDRO')
         a.cmd('refresh','/sdcard/DCIM/100ANDRO')
@@ -39,19 +40,17 @@ class CameraTest(unittest.TestCase):
         #Step 1. Launch single capture activity
         a.cmd('launch','com.intel.camera22/.Camera')
         time.sleep(2)
-        try:
-            assert d(text = 'OK').wait.exists(timeout = 3000)
+        if  d(text = 'OK').wait.exists(timeout = 3000):
             d(text = 'OK').click.wait()
-        except:
-            pass
-        assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
-        super(CameraTest,self).setUp()
+        else:
+            assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
+
 
     def tearDown(self):
+        super(CameraTest,self).tearDown()
         #4.Exit  activity
         self._pressBack(4)
         a.cmd('pm','com.intel.camera22')
-        super(CameraTest,self).tearDown()
 
 
 
