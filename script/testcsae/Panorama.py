@@ -19,6 +19,7 @@ tb = util.TouchButton()
 
 # PATH
 PATH ='/data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml '
+PATH1='cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml '
 # key
 EXPOSURE_KEY ='| grep pref_camera_exposure_key'
 IOS_KEY='| grep pref_camera_iso_key'
@@ -42,8 +43,9 @@ class CameraTest(unittest.TestCase):
         time.sleep(2)
         if  d(text = 'OK').wait.exists(timeout = 3000):
             d(text = 'OK').click.wait()
-        else:
-            assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
+        sm.switchcamera('panorama')    
+        assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
+        
 
 
     def tearDown(self):
@@ -65,9 +67,6 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button
         4.Touch shutter button to capture picture
         '''
-        #step1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
         # step 2
         sm.setCameraSetting('panorama',2,3)
         # step 4~5
@@ -84,11 +83,10 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button 
         4.Touch shutter button to capture picture
         '''
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',2,4)
-        assert bool((a.cmd('cat',PATH + EXPOSURE_KEY).find('3')+1)
+        assert bool(a.cmd('cat',PATH + EXPOSURE_KEY).find('3')+1)
         # step 4~5
         self._PanoramaCapturePic()
 
@@ -102,8 +100,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button 
         4.Touch shutter button to capture picture
         '''
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',2,5)
         assert bool(a.cmd('cat',PATH + EXPOSURE_KEY).find('6')+1)
@@ -120,8 +117,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button 
         4.Touch shutter button to capture picture
         '''   
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',2,2)
         assert bool(a.cmd('cat',PATH + EXPOSURE_KEY).find('-3')+1)
@@ -138,8 +134,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button 
         4.Touch shutter button to capture picture
         '''   
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',2,1)
         assert bool(a.cmd('cat',PATH + EXPOSURE_KEY).find('-6')+1)
@@ -155,11 +150,10 @@ class CameraTest(unittest.TestCase):
                 3.Touch shutter button to capture picture
         """ 
         # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',1,2)
-        assert bool(a.cmd('cat',PATH + LOCATION_KEY).find('on')+1)
+        assert bool(a.cmd('cat',PATH1 + LOCATION_KEY).find('on')+1)
         # step 3
         self._PanoramaCapturePic() 
 
@@ -172,12 +166,11 @@ class CameraTest(unittest.TestCase):
                 3.Touch shutter button to capture picture
                 4.Exit activity
         """ 
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
+
         # step 2
         sm.setCameraSetting('panorama',1,1)
-        assert bool(a.cmd('cat',PATH + LOCATION_KEY).find('off')+1)
+        assert bool(a.cmd('cat',PATH1 + LOCATION_KEY).find('off')+1)
         # step 3
         self._PanoramaCapturePic() 
 
@@ -191,9 +184,7 @@ class CameraTest(unittest.TestCase):
                 4.Touch shutter button to capture picture
                 5.Exit  activity 
         """
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',3,5)
         assert bool(a.cmd('cat',PATH + IOS_KEY).find('iso-auto')+1)
@@ -209,9 +200,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button
         4.Touch shutter button to capture picture
         """
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',3,4)
         assert bool(a.cmd('cat',PATH + IOS_KEY).find('iso-100')+1)
@@ -227,9 +216,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button
         4.Touch shutter button to capture picture  
         """
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',3,3)
         assert bool(a.cmd('cat',PATH + IOS_KEY).find('iso-200')+1)
@@ -246,9 +233,7 @@ class CameraTest(unittest.TestCase):
         4.Touch shutter button to capture picture
         5.Exit  activity 
         """
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',3,2)
         assert bool(a.cmd('cat',PATH + IOS_KEY).find('iso-400')+1)
@@ -264,9 +249,7 @@ class CameraTest(unittest.TestCase):
         3.Touch shutter button
         4.Touch shutter button to capture picture
         """
-        # step 1
-        sm.switchcamera('panorama')
-        d.expect('panorama.png')
+
         # step 2
         sm.setCameraSetting('panorama',3,1)
         assert bool(a.cmd('cat',PATH + IOS_KEY).find('iso-800')+1)
@@ -295,8 +278,3 @@ class CameraTest(unittest.TestCase):
     def _pressBack(self,touchtimes):
         for i in range(1,touchtimes+1):
             d.press('back')
-
-
-
-if __name__ =='__main__':  
-    unittest.main()             
