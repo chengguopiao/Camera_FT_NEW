@@ -35,8 +35,7 @@ class CameraTest(unittest.TestCase):
         time.sleep(2)
         if  d(text = 'OK').wait.exists(timeout = 3000):
             d(text = 'OK').click.wait()
-        else:
-            assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
+        assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
 
 
     def tearDown(self):
@@ -188,8 +187,5 @@ class CameraTest(unittest.TestCase):
     def _pressBack(self,touchtimes):
         for i in range(1,touchtimes+1):
             d.press('back')
-
-
-
 if __name__ =='__main__':  
     unittest.main()             
