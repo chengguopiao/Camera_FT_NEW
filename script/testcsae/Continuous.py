@@ -25,7 +25,6 @@ EXPOSURE_KEY ='| grep pref_camera_exposure_key'
 IOS_KEY='| grep pref_camera_iso_key'
 LOCATION_KEY ='| grep pref_camera_geo_location_key'
 SCENE_KEY ='| grep pref_camera_scenemode_key'
-FDFR_KEY ='| grep pref_fdfr_key'
 PICTURE_SIZE_KEY ='| grep pref_camera_picture_size_key'
 HINTS_KEY ='| grep pref_camera_hints_key'
 TIMER_KEY ='| grep pref_camera_delay_shooting_key'
@@ -37,7 +36,6 @@ PACKAGE_NAME = 'com.intel.camera22'
 ACTIVITY_NAME = PACKAGE_NAME + '/.Camera'
 
 class CameraTest(unittest.TestCase):
-    
     def setUp(self):
         super(CameraTest,self).setUp()
         # rm DCIM folder and refresh from adb shell
@@ -49,8 +47,7 @@ class CameraTest(unittest.TestCase):
         time.sleep(2)
         if  d(text = 'OK').wait.exists(timeout = 3000):
             d(text = 'OK').click.wait()
-        else:
-            assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
+        assert d(resourceId = 'com.intel.camera22:id/shutter_button'),'Launch camera failed!!'
 
 
     def tearDown(self):
@@ -58,7 +55,6 @@ class CameraTest(unittest.TestCase):
         #4.Exit  activity
         self._pressBack(4)
         a.cmd('pm','com.intel.camera22')
-
 
 
 
@@ -294,7 +290,6 @@ class CameraTest(unittest.TestCase):
         """
         # step 2
         sm.setCameraSetting('single','fdfr','on')
-        assert bool(a.cmd('cat',PATH1 + FDFR_KEY).find('on')+1)
         # step 3
         self._ContinuouCapturePic()        
 
@@ -338,7 +333,7 @@ class CameraTest(unittest.TestCase):
                 4.Exit  activity
         """ 
         # step 2
-        sm.setCameraSetting('single',3,1)
+        sm.setCameraSetting('single',3,2)
         assert bool(a.cmd('cat',PATH1 + LOCATION_KEY).find('on')+1)
         # step 3
         self._ContinuouCapturePic()          
@@ -353,7 +348,7 @@ class CameraTest(unittest.TestCase):
                 4.Exit  activity
         """
         # step 2
-        sm.setCameraSetting('single',3,2)
+        sm.setCameraSetting('single',3,1)
         assert bool(a.cmd('cat',PATH1 + LOCATION_KEY).find('off')+1)
         # step 3
         self._ContinuouCapturePic()   
@@ -401,7 +396,7 @@ class CameraTest(unittest.TestCase):
         self._ContinuouCapturePic() 
 
 # Test case 24
-    def testContinuousCapturepictureWithSelfTimerThreeSec(self):
+    #def testContinuousCapturepictureWithSelfTimerThreeSec(self):
         """
         Summary:testCapturepictureWithSelfTimerThreeSec: Capture image with Self-timer 3s
         Steps:  1.Launch single capture activity
@@ -409,13 +404,13 @@ class CameraTest(unittest.TestCase):
                 3.Touch shutter button to capture picture
                 4.Exit  activity
         """
-        sm.setCameraSetting('single',9,2)
-        assert bool(a.cmd('cat',PATH + TIMER_KEY).find('3')+1)
-        # step 3
-        self._ContinuouCapturePic() 
+     #   sm.setCameraSetting('single',9,2)
+      #  assert bool(a.cmd('cat',PATH + TIMER_KEY).find('3')+1)
+       # # step 3
+        #self._ContinuouCapturePic() 
 
 # Test case 25
-    def testContinuousCapturepictureWithSelfTimerFiveSec(self):
+    #def testContinuousCapturepictureWithSelfTimerFiveSec(self):
         """
         Summary:testCapturepictureWithSelfTimerFiveSec: Capture image with Self-timer 5s
         Steps:  1.Launch single capture activity
@@ -423,13 +418,13 @@ class CameraTest(unittest.TestCase):
                 3.Touch shutter button to capture picture
                 4.Exit  activity
         """
-        sm.setCameraSetting('single',9,3)
-        assert bool(a.cmd('cat',PATH + TIMER_KEY).find('5')+1)
-        # step 3
-        self._ContinuouCapturePic() 
+     #   sm.setCameraSetting('single',9,3)
+      #  assert bool(a.cmd('cat',PATH + TIMER_KEY).find('5')+1)
+       # # step 3
+        #self._ContinuouCapturePic() 
 
 # Test case 26
-    def testContinuousCapturepictureWithSelfTimerTenSec(self):
+    #def testContinuousCapturepictureWithSelfTimerTenSec(self):
         """
         Summary:testCapturepictureWithSelfTimerTenSec: Capture image with Self-timer 10s
         Steps:  1.Launch single capture activity
@@ -437,10 +432,10 @@ class CameraTest(unittest.TestCase):
                 3.Touch shutter button to capture picture
                 4.Exit  activity
         """
-        sm.setCameraSetting('single',9,4)
-        assert bool(a.cmd('cat',PATH + TIMER_KEY).find('10')+1)
-        # step 3
-        self._ContinuouCapturePic() 
+     #   sm.setCameraSetting('single',9,4)
+      #  assert bool(a.cmd('cat',PATH + TIMER_KEY).find('10')+1)
+       # # step 3
+        #self._ContinuouCapturePic() 
 
 # Test case 27
     def testContinuousCapturepictureWithISOAuto(self):
@@ -564,7 +559,7 @@ class CameraTest(unittest.TestCase):
                 4.Exit  activity
         """
         sm.setCameraSetting('single',7,2)
-        assert bool(a.cmd('cat',PATH + WHITEBALANCE).find('daylight')+1)
+        assert bool(a.cmd('cat',PATH + WHITEBALANCE).find('fluorescent')+1)
         # step 3
         self._ContinuouCapturePic() 
 
@@ -592,7 +587,6 @@ class CameraTest(unittest.TestCase):
                 4.Exit  activity
         """
         sm.setCameraSetting('single','fdfr','off')
-        assert bool(a.cmd('cat',PATH1 + FDFR_KEY).find('off')+1)
         # step 3
         self._ContinuouCapturePic() 
 
@@ -606,7 +600,6 @@ class CameraTest(unittest.TestCase):
                 4.Exit  activity
         """
         sm.setCameraSetting('single','fdfr','on')
-        assert bool(a.cmd('cat',PATH1 + FDFR_KEY).find('on')+1)
         # step 3
         self._ContinuouCapturePic() 
 
@@ -656,7 +649,5 @@ class CameraTest(unittest.TestCase):
         for i in range(1,touchtimes+1):
             d.press('back')
 
-
-
 if __name__ =='__main__':  
-    unittest.main()             
+    unittest.main() 
